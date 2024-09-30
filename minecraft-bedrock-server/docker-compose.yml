@@ -1,0 +1,26 @@
+name: rune-vikestad
+
+services:
+  minecraft-bedrock-server:
+    container_name: minecraft-bedrock-server
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - minecraft-bedrock-server-data:/data
+    ports:
+      - "19132:19132/udp"
+    networks:
+      - default
+
+volumes:
+  minecraft-bedrock-server-data:
+    external: false
+
+networks:
+  default:
+    driver: bridge
+    external: false
