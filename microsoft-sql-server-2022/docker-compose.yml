@@ -1,0 +1,34 @@
+version: '3.9'
+
+name: rune-vikestad
+
+services:
+  microsoft-sql-server-2022:
+    container_name: microsoft-sql-server-2022
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 4G
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - microsoft-sql-server-2022-data:/var/opt/mssql
+    networks:
+      - default
+
+volumes:
+  microsoft-sql-server-2022-data:
+    external: false
+
+networks:
+  default:
+    driver: bridge
+    external: false
