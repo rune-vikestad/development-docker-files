@@ -1,0 +1,32 @@
+name: rune-vikestad
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    cap_drop:
+      - NET_RAW
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq
+      - rabbitmq-log:/var/log/rabbitmq
+    networks:
+      - default
+
+volumes:
+    rabbitmq-lib:
+      external: false
+    rabbitmq-log: 
+      external: false
+
+networks:
+  default:
+    driver: bridge
+    external: false
