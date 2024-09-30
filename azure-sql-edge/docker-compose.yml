@@ -1,0 +1,33 @@
+name: rune-vikestad
+
+services:
+  azure-sql-edge:
+    container_name: azure-sql-edge
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 4G
+    cap_add:
+      - SYS_PTRACE
+    ports:
+      - "1434:1433"
+    volumes:
+      - azure-sql-edge-data:/var/opt/mssql
+    networks:
+      - default
+
+volumes:
+  azure-sql-edge-data:
+    external: false
+
+networks:
+  default:
+    driver: bridge
+    external: false
