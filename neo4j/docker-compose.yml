@@ -1,0 +1,39 @@
+version: '3.9'
+
+name: rune-vikestad
+
+services:
+  neo4j:
+    container_name: neo4j
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - neo4j-conf:/conf
+      - neo4j-data:/data
+      - neo4j-import:/import
+      - neo4j-logs:/logs
+      - neo4j-plugins:/plugins
+    ports:
+      - 7373:7373 # HTTPS
+      - 7474:7474 # HTTP
+      - 7687:7687 # Bolt
+
+volumes:
+  neo4j-conf:
+    external: false
+  neo4j-data:
+    external: false
+  neo4j-import:
+    external: false
+  neo4j-logs:
+    external: false
+  neo4j-plugins:
+    external: false
+
+networks:
+  default:
+    driver: bridge
+    external: false
