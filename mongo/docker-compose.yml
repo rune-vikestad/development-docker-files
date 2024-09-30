@@ -1,0 +1,33 @@
+version: '3.9'
+
+name: rune-vikestad
+
+services:
+  mongo:
+    container_name: mongo
+    hostname: mongo
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - mongo-config:/data/configdb
+      - mongo-data:/data/db
+    networks:
+      - default
+
+volumes:
+  mongo-config:
+    external: false
+  mongo-data:
+    external: false
+
+networks:
+  default:
+    driver: bridge
+    external: false
