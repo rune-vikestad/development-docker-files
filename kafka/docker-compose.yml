@@ -11,11 +11,29 @@ services:
     ports:
       - "9092:9092"
     volumes:
+      # Contains custom configurations
       - kafka-data:/var/lib/kafka/data
+
+      # Contains metadata for Kafka brokers running in KRaft mode
       - kafka-meta:/var/lib/kafka/meta
-      - kafka-config:/opt/kafka/config
+      
+      # Contains default configuration
+      - kafka-default-config:/opt/kafka/config
+      
+      # Contains custom configuration
+      - kafka-shared-config:/mnt/shared/config
+
+      # Contains operational and diagnostic logs for troubleshooting and 
+      # monitoring
       - kafka-log:/var/log/kafka
+      
+      # Contains SSL/TLS certificates for enabling secure communication 
+      # between Kafka brokers and clients
       - kafka-certs:/etc/kafka/certs      
+      
+      # Contains sensitive information such as passwords, API keys, or 
+      # encryption keys for securing Kafka configurations and operations
+      - kafka-secrets:/etc/kafka/secrets
     networks:
       - default
 
