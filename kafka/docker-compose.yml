@@ -1,0 +1,37 @@
+services:
+  kafka:
+    container_name: kafka
+    hostname: kafka
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+      - kafka-meta:/var/lib/kafka/meta
+      - kafka-config:/opt/kafka/config
+      - kafka-log:/var/log/kafka
+      - kafka-certs:/etc/kafka/certs      
+    networks:
+      - default
+
+volumes:
+  kafka-data:
+    external: false
+  kafka-meta:
+    external: false
+  kafka-config:
+    external: false
+  kafka-log:
+    external: false
+  kafka-certs:
+    external: false
+
+networks:
+  default:
+    driver: bridge
+    external: false
